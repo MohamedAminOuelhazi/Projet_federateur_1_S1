@@ -1,0 +1,48 @@
+\babel@toc {nil}{}\relax 
+\addvspace {10\p@ }
+\contentsline {xchapter}{CHAPITRE 1 : \textbf {Cadre du projet et choix méthodologique}}{3}{chapter.1}%
+\contentsline {table}{\numberline {1.1}{\ignorespaces Comparaison entre les méthodes agiles}}{8}{table.caption.6}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{CHAPITRE 2 : Étude préliminaire}{14}{chapter.2}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Backlog Produit}}{24}{table.2.1}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{CHAPITRE 3 : \textbf {Sprint 1 - Gestion de l'espace Médecin}}{33}{chapter.3}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Backlog du sprint 1 - Espace Médecin}}{34}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Description textuelle du cas d'utilisation "S'authentifier - Médecin"}}{38}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Description textuelle du cas d'utilisation "Créer un Assistant"}}{40}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Description textuelle du cas d'utilisation "Créer une Facture"}}{42}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Description textuelle du cas d'utilisation "Enregistrer un Paiement"}}{45}{table.3.5}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Description textuelle du cas d'utilisation "Modifier un Assistant"}}{47}{table.3.6}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Description textuelle du cas d'utilisation "Activer/Désactiver un Assistant"}}{49}{table.3.7}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Description textuelle du cas d'utilisation "Supprimer un Assistant"}}{51}{table.3.8}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Description textuelle du cas d'utilisation "Modifier un Dossier Médical"}}{53}{table.3.9}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces Description textuelle du cas d'utilisation "Supprimer une Facture"}}{56}{table.3.10}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces Description textuelle du cas d'utilisation "Consulter les Patients"}}{58}{table.3.11}%
+\contentsline {table}{\numberline {3.12}{\ignorespaces Description textuelle du cas d'utilisation "Modifier un Patient"}}{59}{table.3.12}%
+\contentsline {table}{\numberline {3.13}{\ignorespaces Description textuelle du cas d'utilisation "Créer un Rendez-vous"}}{61}{table.3.13}%
+\contentsline {table}{\numberline {3.14}{\ignorespaces Description textuelle du cas d'utilisation "Modifier un Rendez-vous"}}{63}{table.3.14}%
+\contentsline {table}{\numberline {3.15}{\ignorespaces Description textuelle du cas d'utilisation "Annuler un Rendez-vous"}}{65}{table.3.15}%
+\contentsline {table}{\numberline {3.16}{\ignorespaces Description textuelle du cas d'utilisation "Consulter un Dossier Médical"}}{67}{table.3.16}%
+\contentsline {table}{\numberline {3.17}{\ignorespaces Description textuelle du cas d'utilisation "Ajouter des Documents à un Dossier"}}{69}{table.3.17}%
+\contentsline {table}{\numberline {3.18}{\ignorespaces Description textuelle du cas d'utilisation "Télécharger des Documents"}}{71}{table.3.18}%
+\contentsline {table}{\numberline {3.19}{\ignorespaces Description textuelle du cas d'utilisation "Générer des Rapports"}}{73}{table.3.19}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{CHAPITRE 4 : \textbf {Sprint 2 - Gestion de l'espace Assistant}}{96}{chapter.4}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Backlog du sprint 2 - Espace Assistant}}{97}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Description textuelle du cas d'utilisation "S'authentifier - Assistant"}}{100}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Description textuelle du cas d'utilisation "Modifier les Patients"}}{102}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Description textuelle du cas d'utilisation "Créer un Rendez-vous"}}{104}{table.4.4}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Description textuelle du cas d'utilisation "Créer une Facture - Assistant"}}{106}{table.4.5}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Description textuelle du cas d'utilisation "Annuler un Rendez-vous"}}{109}{table.4.6}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{CHAPITRE 5 : \textbf {Sprint 3 - Gestion de l'espace Patient et Chatbot IA}}{125}{chapter.5}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Backlog du sprint 3 - Espace Patient et Chatbot IA}}{126}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Description textuelle du cas d'utilisation "S'inscrire - Patient"}}{129}{table.5.2}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Description textuelle du cas d'utilisation "Vérifier Email"}}{131}{table.5.3}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Description textuelle du cas d'utilisation "Consulter Dossiers Médicaux - Patient"}}{133}{table.5.4}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Description textuelle du cas d'utilisation "Télécharger Document Médical"}}{135}{table.5.5}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Description textuelle du cas d'utilisation "Interagir avec Chatbot IA"}}{137}{table.5.6}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{CHAPITRE 6 : \textbf {Environnement de développement et Conclusion générale}}{151}{chapter.6}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Description des équipements de développement}}{152}{table.caption.55}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Stack technique complète}}{160}{table.caption.70}%

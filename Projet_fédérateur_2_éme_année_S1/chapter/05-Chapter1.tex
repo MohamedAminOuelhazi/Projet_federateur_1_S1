@@ -1,0 +1,250 @@
+\chapter{CHAPITRE 1 : \textbf{Cadre du projet et choix méthodologique }  }
+\begin{spacing}{1.2}
+\minitoc
+\thispagestyle{MyStyle}
+\end{spacing}
+\newpage
+
+\section{INTRODUCTION}
+Ce stage s'inscrit dans le cadre du développement d'une solution innovante de gestion collaborative pour l'Agence Nationale de Maîtrise de l'Énergie (ANME). L'objectif principal est de digitaliser le processus de gestion des réunions techniques et de validation des procès-verbaux (PV) à travers une plateforme web full-stack. Cette introduction présente le contexte organisationnel, les problématiques identifiées, et la méthodologie adoptée pour mener à bien ce projet.
+\section{Présentation générale de l’organisme : }
+L'Agence Nationale de Maîtrise de l'Énergie (ANME) est un établissement public sous tutelle du Ministère de l'Industrie et de l'Énergie, créé en 1985. Sa mission principale est de promouvoir l'efficacité énergétique et les énergies renouvelables en Tunisie.\cite{titleBIB1}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    
+    \includegraphics[width=8 cm,height=5cm]{images/logoslogan.png}%
+    
+    \caption{Logo ANME}%
+    
+\end{figure}
+
+Fonds de Transition Energétique (FTE) de la République tunisienne est un compte spécial de trésor créé Ce fonds a été créé pour le but d’encourager l’investissement dans le domaine de la maîtrise de l’énergie.\cite{titleBIB1}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    
+    \includegraphics[width=8 cm,height=4cm]{images/logo-fte.png}%
+    
+    \caption{Logo FTE}%
+    
+\end{figure}
+
+\section{Cadre général du travail }
+Face à la croissance des activités et à la complexification des processus, l'ANME a identifié un besoin critique de modernisation de sa gestion documentaire. Le processus actuel de validation des PV présente des lacunes significatives en termes d'efficacité et de traçabilité.
+
+\section{Étude de l’existant  }
+
+{\subsection{Analyse de l’existant}}
+Processus actuel :
+
+\textbf{1. }\textbf{Planification des réunions : }Envoi d'e-mails manuels, suivi par Excel 
+
+\textbf{2. }\textbf{Préparation des PV :}Rédaction sur Word, circulation par e-mail
+
+\textbf{3. }\textbf{Validation :}Impressions, signatures physiques, scan
+
+\textbf{4. }\textbf{Archivage :}Classement physique et copies numériques non structurées
+
+
+{\subsection{Critique de l’existant}}
+
+\textbf{1. }\textbf{Redondance des saisies : }\SI{40 }{\percent} des informations ressaisies manuellement
+
+\textbf{2. }\textbf{Difficultés de suivi  :}Aucun statut visible en temps réel
+
+\textbf{3. }\textbf{Risques juridiques :}Perte de preuves de validation
+
+\section{Solution Proposée }
+Face aux lacunes identifiées dans le processus actuel de gestion des réunions et procès-verbaux à l'ANME, nous proposons une solution innovante sous la forme d'une plateforme collaborative full-stack. Cette solution vise à digitaliser l'ensemble du cycle de vie des réunions techniques, depuis leur planification jusqu'à l'archivage sécurisé des documents validés, en passant par un workflow de validation électronique intégré. 
+
+La solution se décline autour de quatre modules fonctionnels clés. Le premier module, "Gestion des Réunions", permet aux FTE de créer des réunions en définissant les participants, les dates et les documents associés, avec un système automatisé de notifications par email aux membres concernés. Le deuxième module, "Workflow de Validation", implémente un circuit configurable avec des statuts visuels en temps réel (Brouillon, Soumis, Validé, Rejeté) et un historique complet.
+
+\section{Méthodologique adaptée }
+
+Pour la réalisation d'un projet de développement et dans le cadre d'une collaboration d'équipe, il est important de maîtriser les principales méthodologies de travail. Celles-ci assurent un cycle de vie efficace et transparent.
+
+{\subsection{Méthodes agiles}}
+
+Les méthodes agiles sont des pratiques de gestion de projet qui privilégient la flexibilité et l'adaptabilité pour fournir des solutions logicielles. Elles encouragent la collaboration, la communication transparente et une livraison rapide de valeur. Elles sont devenues un élément essentiel dans le développement logiciel, offrant un cadre solide pour la réalisation de projets efficaces et de qualité. Le tableau \ref{table:ISO Alpha}  ci-dessous met en oeuvre une comparaison entre les différentes méthodes agiles.\cite{titleBIB3}
+
+
+
+\begin{table}[H]
+\label{table:ISO Alpha}
+\centering
+\caption{Comparaison entre les méthodes agiles }
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{6cm}|>{\raggedright\arraybackslash}p{6cm}|}
+\hline
+ \cellcolor[HTML]{FFF2CC}Méthode 
+& \cellcolor[HTML]{FFF2CC}Description  
+&  
+    \cellcolor[HTML]{FFF2CC}Condition\\
+\hline
+ \cellcolor[HTML]{FFF2CC} \textbf{eXtreme Programming (XP)  } & 
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\begin{itemize}[leftmargin=0.5cm,topsep=0pt]
+\item la programmation réflexive 
+\item la conception par paire  
+\item l'intégration continue et les tests unitaires 
+\end{itemize}
+& 
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\begin{itemize}[leftmargin=0.5cm,topsep=0pt]
+\item Projets nécessitant une haute qualité de code
+\item Équipes disciplinées et communicantes
+\end{itemize}
+\\
+
+\hline
+ \cellcolor[HTML]{FFF2CC}\textbf{Feature Driven Development (FDD)  }  & 
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\begin{itemize}[leftmargin=0.5cm,topsep=0pt]
+\item la décomposition des fonctionnalités en modules  
+\item la planification par domaine 
+\item la collaboration entre les équipes 
+\end{itemize}
+& 
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\begin{itemize}[leftmargin=0.5cm,topsep=0pt]
+\item Projets avec des fonctionnalités bien définies 
+\item Importance de la collaboration entre les équipes 
+\end{itemize}
+\\
+
+\hline
+ \cellcolor[HTML]{FFF2CC} \textbf{\textbf{SCRUM} } & 
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\begin{itemize}[leftmargin=0.5cm,topsep=0pt]
+\item la planification  
+\item la collaboration  
+\item la livraison rapide de logiciels 
+\end{itemize}
+& 
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+\begin{itemize}[leftmargin=0.5cm,topsep=0pt]
+\item Projets complexes et changeants 
+\item Équipes expérimentées 
+\end{itemize}
+\\
+\hline
+
+
+\end{tabular}
+\label{table:ISO Alpha}
+\end{table}
+
+Les quatre valeurs fondamentales agiles :
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    
+    \includegraphics[width=16 cm,height=9cm]{images/Individus et interactions (6).png}%
+    
+    \caption{Les quatre valeurs principles}%
+    
+\end{figure}
+
+
+{\subsection{Choix de la méthodologie adoptée : scrum}}
+
+Après avoir analysé les différentes méthodologies dans le but d'opter pour celle qui convient à notre projet, nous avons choisi Scrum comme méthode de conception et de développement. De plus, c’est la méthode adoptée par l'équipe chez ANME.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    
+    \includegraphics[width=16 cm,height=7.9cm]{images/agile-methode.jpeg}%
+    
+    \caption{Différentes Phases de scrum}%
+    
+\end{figure}
+
+
+{\subsection{Principaux avantages de Scrum}}
+
+\renewcommand{\labelitemi}{\tiny$-$}
+Les principaux avantages de Scrum incluent :
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{Flexibilité et adaptabilité :} Scrum permet de s'adapter facilement aux changements de priorités ou aux nouvelles exigences
+        \item \textbf{Livraison rapide de valeur} : Scrum permet de fournir fréquemment des versions fonctionnelles du logiciel, offrant ainsi aux utilisateurs la possibilité de donner leur avis et d'influencer le développement du produit.
+        \item \textbf{Amélioration de la qualité du logiciel} : Scrum met l'accent sur la programmation de haute qualité et les tests unitaires, ce qui se traduit par la production de logiciels plus fiables et moins sujets à des erreurs.
+        \item \textbf{Augmentation de la motivation de l'équipe : }En favorisant la collaboration et l'autonomie des équipes, Scrum peut stimuler la motivation et la productivité des membres de l'équipe. 
+        \end{spacing}
+\end{itemize}
+
+\subsection{Artefacts de Scrum }
+
+
+\renewcommand{\labelitemi}{\tiny$-$}
+Les artefacts de Scrum sont des éléments essentiels qui fournissent une structure et une visibilité tout au long du processus de développement. Voici une explication détaillée des principaux artefacts de Scrum :
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item · \textbf{Le Product Backlog :} est une liste dynamique et priorisée de toutes les fonctionnalités, améliorations et corrections de bogues nécessaires pour le produit. Il est maintenu par le Product Owner, qui travaille en étroite collaboration avec les parties prenantes pour identifier et prioriser les éléments en fonction de la valeur qu'ils apportent au produit. Le Product Backlog évolue continuellement pour refléter les changements dans les besoins du client, les retours d'expérience et les nouvelles idées. Chaque élément du Product Backlog est décrit en détail et estimé en termes de complexité et d'effort requis pour sa réalisation.
+\item \textbf{Le Sprint Backlog :} Une sélection d'éléments du Product Backlog choisis pour être développés lors d'un sprint spécifique.
+\item \textbf{L'Increment :} La version fonctionnelle et potentiellement livrable du produit à la fin de chaque sprint.
+        \end{spacing}
+\end{itemize}
+
+\subsection{L’équipe de Scrum}
+
+\renewcommand{\labelitemi}{\tiny$-$}
+L'équipe de Scrum se compose de trois rôles principaux :
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{Le Product Owner : }Responsable de la définition et de la gestion du Product Backlog, représentant les besoins et les intérêts des parties prenantes.
+        \item \textbf{Le Scrum Master :} Chargé de faciliter les processus et de s'assurer que l'équipe Scrum respecte les principes et pratiques de Scrum.
+        \item  \textbf{L'équipe de développement :} Composée de professionnels multidisciplinaires responsables de la réalisation des éléments du Product Backlog et de la livraison de l'Incrément. 
+        \end{spacing}
+\end{itemize}
+
+\begin{table}[H]
+\label{table:L'équipe de Scrum}
+\centering
+\caption{L'équipe de Scrum}
+\begin{tabular}{|p{5cm}|p{5cm}|}
+\hline
+ \cellcolor[HTML]{FFF2CC}Rôles   
+& \cellcolor[HTML]{FFF2CC}Acteurs  
+\\
+\hline
+Product Owner\textbf{ } & 
+Mr Wassim  \\
+\hline
+ Scrum Master & 
+M Haifa Baccouche\\
+\hline
+ L'équipe de développement & 
+Mohamed Amin Ouelhazi \\
+
+\hline
+
+
+\end{tabular}
+\label{table:L'équipe de Scrum}
+\end{table}
+
+\subsection{Modélisation avec UML}
+
+La modélisation avec UML (Unified Modeling Language) est une pratique essentielle dans le processus de développement logiciel. C'est un langage de modélisation graphique utilisé pour spécifier, concevoir, visualiser et documenter les systèmes logiciels. Il peut être utilisé pour créer une variété de diagrammes, notamment des diagrammes de cas d'utilisation, des diagrammes de classes, des diagrammes de séquence et des diagrammes d'activité.\cite{titleBIB7}
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+   
+    \includegraphics[width=3.9cm,height=3.9cm]{images/UML_logo.svg.png}%
+    
+    \caption{Logo UML }%
+    
+\end{figure}
+\section{CONCLUSION}
+Cette première partie a permis de poser les fondations de notre projet en présentant le contexte organisationnel de l'ANME, en analysant les limites du système actuel de gestion des réunions et PV, et en justifiant le choix d'une méthodologie agile adaptée. La solution proposée, basée sur une architecture full-stack moderne et un workflow de validation électronique, répond aux besoins critiques identifiés lors de l'étude de l'existant. Dans le chapitre suivant, nous aborderons en détail la planification et l'architecture de notre solution. 

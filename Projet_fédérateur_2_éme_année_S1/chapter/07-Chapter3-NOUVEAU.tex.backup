@@ -1,0 +1,1483 @@
+\chapter{CHAPITRE 3 : \textbf{Sprint 1 - Gestion de l'espace Médecin}}
+\begin{spacing}{1.2}
+\minitoc
+\thispagestyle{MyStyle}
+\end{spacing}
+\newpage
+
+\section{INTRODUCTION}
+Après avoir identifié les besoins fonctionnels et défini les fonctionnalités nécessaires dans le Product Backlog, ce chapitre se concentre sur la description du premier sprint, intitulé "Gestion de l'espace Médecin". Nous allons commencer par la spécification du backlog du sprint 1, puis la conception avec diagrammes UML, et enfin l'illustration des fonctionnalités développées à travers des captures d'écran. Ce sprint constitue le cœur du système car il permet au médecin de gérer l'ensemble de son cabinet : assistants, patients, rendez-vous, dossiers médicaux et factures.
+
+\section{Backlog du sprint 1}
+Le tableau \ref{tableau:Backlog du sprint 1} présente l'ensemble des user stories sélectionnées pour le sprint 1, focalisées sur l'espace médecin.
+
+\begin{longtable}{|p{3.5cm}|p{9cm}|p{1.5cm}|p{2cm}|}
+\caption{Backlog du sprint 1 - Espace Médecin} %
+\label{tableau:Backlog du sprint 1}
+\\
+\hline
+ \cellcolor[HTML]{FFF2CC}Fonctionnalités  
+& \cellcolor[HTML]{FFF2CC}User Stories   
+& \cellcolor[HTML]{FFF2CC}Priorités
+& \cellcolor[HTML]{FFF2CC}Estimation\\
+\hline
+\endfirsthead
+\hline
+ \cellcolor[HTML]{FFF2CC}Fonctionnalités  
+& \cellcolor[HTML]{FFF2CC}User Stories   
+& \cellcolor[HTML]{FFF2CC}Priorités
+& \cellcolor[HTML]{FFF2CC}Estimation\\
+\hline
+\endhead
+\multirow{2}{10em}{Gestion d'Authentification}
+& En tant que médecin, je veux m'authentifier pour accéder à mon espace sécurisé & Élevée & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux me déconnecter pour quitter mon session en toute sécurité & Moyenne & 1 jour
+\\ \hline
+\multirow{5}{8em}{Gérer les Assistants} 
+& En tant que médecin, je veux créer un compte assistant avec email, nom et mot de passe & Élevée & 4 jours
+\\\cline{2-4}
+& En tant que médecin, je veux consulter la liste de tous mes assistants avec leurs informations & Moyenne & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux modifier les informations d'un assistant (nom, email) & Moyenne & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux activer ou désactiver un assistant avec envoi d'email de notification & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux supprimer définitivement un assistant via DELETE /api/assistants/supprimer/\{id\} & Faible & 1 jour
+\\ \hline
+\multirow{5}{8em}{Gérer les Dossiers Médicaux}
+& En tant que médecin, je veux consulter l'historique complet des dossiers médicaux d'un patient via GET /api/dossiers/patient/\{id\} & Élevée & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux modifier un dossier médical existant via PUT /api/dossiers/\{id\} & Moyenne & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux uploader des documents médicaux (PDF, images) via POST /api/dossiers/\{id\}/files & Élevée & 4 jours
+\\\cline{2-4}
+& En tant que médecin, je veux télécharger les documents d'un dossier via GET /api/dossiers/\{dossierId\}/files/\{docId\} & Moyenne & 2 jours
+\\ \hline
+\multirow{5}{8em}{Gérer les Factures}
+& En tant que médecin, je veux créer une facture pour n'importe quel patient via POST /api/factures & Élevée & 4 jours
+\\\cline{2-4}
+& En tant que médecin, je veux consulter toutes les factures avec filtres (payée/impayée, période) via GET /api/factures & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux enregistrer un paiement via PATCH /api/factures/\{id\}/payer avec mode de paiement (CB, espèces, chèque, virement) & Élevée & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux supprimer une facture via DELETE /api/factures/\{id\} (réservé au médecin uniquement) & Faible & 1 jour
+\\\cline{2-4}
+& En tant que médecin, je veux générer des rapports financiers via GET /api/factures/rapports avec statistiques détaillées & Moyenne & 4 jours
+\\ \hline
+\multirow{4}{8em}{Gérer les Patients}
+& En tant que médecin, je veux consulter la liste de tous mes patients avec leurs informations via GET /api/patients & Élevée & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux modifier les informations d'un patient (nom, adresse, téléphone) via PUT /api/patients/\{id\} & Moyenne & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux rechercher un patient par nom ou téléphone pour accéder rapidement à son dossier & Moyenne & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux consulter le profil complet d'un patient avec historique RDV et dossiers & Élevée & 3 jours
+\\ \hline
+\multirow{6}{8em}{Gérer les Rendez-vous}
+& En tant que médecin, je veux créer un nouveau rendez-vous pour un patient via POST /api/rendezvous & Élevée & 4 jours
+\\\cline{2-4}
+& En tant que médecin, je veux consulter tous mes rendez-vous avec filtres (date, statut, patient) via GET /api/rendezvous & Élevée & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux modifier un rendez-vous existant (date, heure, motif) via PUT /api/rendezvous/\{id\} & Moyenne & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux annuler un rendez-vous avec notification automatique au patient via PATCH /api/rendezvous/\{id\}/annuler & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux visualiser mon calendrier de rendez-vous avec vue hebdomadaire/mensuelle & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux consulter les détails d'un rendez-vous (patient, motif, heure, statut) & Moyenne & 2 jours
+\\ \hline
+\multirow{2}{8em}{Générer des Rapports}
+& En tant que médecin, je veux générer des rapports financiers détaillés via GET /api/factures/rapports avec statistiques (CA, impayés) & Élevée & 4 jours
+\\\cline{2-4}
+& En tant que médecin, je veux exporter les rapports en PDF ou Excel pour archivage ou présentation & Moyenne & 3 jours
+\\ \hline
+\multirow{4}{8em}{Tableau de Bord}
+& En tant que médecin, je veux voir mes statistiques principales (RDV jour, patients total, CA mois) sur le dashboard & Élevée & 4 jours
+\\\cline{2-4}
+& En tant que médecin, je veux visualiser mes graphiques de performance (évolution CA, taux paiement) & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux voir mes prochains rendez-vous du jour directement sur le dashboard & Élevée & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux accéder rapidement aux factures impayées depuis le dashboard & Moyenne & 2 jours
+\\ \hline
+\multirow{4}{8em}{Gestion Profil et Paramètres}
+& En tant que médecin, je veux consulter et modifier mon profil (nom, email, téléphone) via GET/PUT /api/profil & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux modifier mon mot de passe avec vérification ancien mot de passe via PATCH /api/profil/password & Élevée & 2 jours
+\\\cline{2-4}
+& En tant que médecin, je veux configurer mes paramètres de cabinet (horaires, durée RDV) via GET/PUT /api/parametres & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que médecin, je veux gérer mes préférences de notification (email, push) dans les paramètres & Faible & 2 jours
+\\ \hline
+\end{longtable}
+
+Chaque user story représente une fonctionnalité que le médecin souhaite pouvoir réaliser dans le système. Les priorités sont classées en élevée, moyenne ou faible, reflétant l'importance relative de chaque user story. L'estimation en jours correspond au temps de développement prévu incluant le backend (API REST Spring Boot), le frontend (Next.js) et les tests.
+
+\section{Spécifications fonctionnelles}
+Dans cette partie, nous présentons le diagramme de cas d'utilisation du sprint 1 ainsi que les descriptions textuelles détaillées des principaux cas d'utilisation.
+
+\subsection{Diagramme de cas d'utilisation du sprint 1}
+Le diagramme de cas d'utilisation du sprint 1, présenté dans la figure 3.1, illustre les besoins fonctionnels sous la forme d'interactions entre le médecin et le système.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=12cm]{images/sprint1-medecin-usecase.png}%
+    \caption{Diagramme de cas d'utilisation du sprint 1 - Espace Médecin}%
+\end{figure}
+
+\subsection{Descriptions textuelles}
+L'objectif de cette activité est de décrire textuellement les scénarios des cas d'utilisation. Il faut préciser comment chaque scénario commence, comment il se termine et comment le médecin interagit avec l'application web.
+
+\textbf{Description textuelle du cas d'utilisation "S'authentifier" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "S'authentifier - Médecin"} présente la description textuelle du cas d'utilisation "S'authentifier". Ce scénario commence lorsque le médecin ouvre l'application et accède à l'écran de connexion.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "S'authentifier - Médecin"}
+\label{tableau:Description textuelle du cas d'utilisation "S'authentifier - Médecin"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}S'authentifier\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}S'authentifier\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le système est en service.
+    \item Le médecin possède un compte actif avec username et mot de passe.
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec un token JWT contenant son rôle "MEDECIN".
+    \item Le système affiche le tableau de bord médecin avec accès à toutes ses fonctionnalités.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la page de connexion (/login).
+    \item Le système affiche le formulaire d'authentification.
+    \item Le médecin saisit son username et son mot de passe.
+    \item Le médecin clique sur "Se connecter".
+    \item Le système vérifie les identifiants via l'API POST /api/auth/login avec LoginDTO (username, password).
+    \item Le backend utilise UsernamePasswordAuthenticationToken et findByUsername() pour authentifier.
+    \item Le système génère un token JWT avec le rôle "MEDECIN".
+    \item Le système stocke le token dans le localStorage du navigateur.
+    \item Le système redirige vers /dashboard (tableau de bord médecin).
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin saisit des données incomplètes (username ou mot de passe vide) \(\rightarrow\) affichage d'un message d'erreur "Tous les champs sont obligatoires".
+    \item Le médecin saisit un username inexistant \(\rightarrow\) affichage d'un message d'erreur "Username ou mot de passe incorrect".
+    \item Le médecin saisit un mot de passe incorrect \(\rightarrow\) affichage d'un message d'erreur "Invalid username or password" (message du backend).
+    \item Le compte est désactivé (active=false) \(\rightarrow\) affichage d'un message d'erreur "Compte désactivé, contactez l'administrateur".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Créer un Assistant" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Créer un Assistant"} présente la description textuelle du cas d'utilisation "Créer un Assistant". Ce scénario permet au médecin d'ajouter un nouvel assistant à son équipe.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Créer un Assistant"}
+\label{tableau:Description textuelle du cas d'utilisation "Créer un Assistant"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Créer un Assistant\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Créer un Assistant\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Le médecin a accès à la section "Gestion des Assistants".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Un nouveau compte assistant est créé dans la base de données avec le statut "actif" (active=true).
+    \item Le mot de passe est hashé avec BCrypt avant stockage en base.
+    \item Un email de notification d'activation est envoyé automatiquement via NotificationEmailService.
+    \item L'assistant peut se connecter avec ses identifiants.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Gestion des Assistants" (/dashboard/assistants).
+    \item Le médecin clique sur "Ajouter un Assistant".
+    \item Le système affiche le formulaire de création avec les champs : nom complet, email, mot de passe, confirmation mot de passe.
+    \item Le médecin remplit tous les champs obligatoires.
+    \item Le médecin clique sur "Créer".
+    \item Le système valide les données saisies (format email, force mot de passe, correspondance des mots de passe).
+    \item Le système vérifie que l'email n'est pas déjà utilisé via l'API /api/assistants/check-email.
+    \item Le système envoie une requête POST /api/assistants avec les données.
+    \item Le backend hash le mot de passe avec BCrypt et enregistre l'assistant en base.
+    \item Le système affiche un message de succès "Assistant créé avec succès".
+    \item Le système rafraîchit la liste des assistants.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin laisse des champs obligatoires vides \(\rightarrow\) affichage d'erreurs de validation sous les champs concernés.
+    \item Le format de l'email est invalide \(\rightarrow\) affichage d'un message "Email invalide".
+    \item Les mots de passe ne correspondent pas \(\rightarrow\) affichage d'un message "Les mots de passe ne correspondent pas".
+    \item Le mot de passe est trop faible (moins de 8 caractères) \(\rightarrow\) affichage d'un message "Le mot de passe doit contenir au moins 8 caractères".
+    \item L'email est déjà utilisé \(\rightarrow\) affichage d'un message "Un compte avec cet email existe déjà".
+    \item Erreur serveur lors de la création \(\rightarrow\) affichage d'un message "Erreur lors de la création, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Créer une Facture" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Créer une Facture"} présente la description textuelle du cas d'utilisation "Créer une Facture". Ce scénario permet au médecin d'émettre une facture pour des actes médicaux.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Créer une Facture"}
+\label{tableau:Description textuelle du cas d'utilisation "Créer une Facture"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Créer une Facture\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Créer une Facture\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un patient existe dans le système.
+    \item Le médecin a accès à la section "Factures".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Une nouvelle facture est créée avec le statut "IMPAYEE".
+    \item La facture contient : patient, montant total, description des actes, date d'émission.
+    \item Un numéro de facture unique est généré automatiquement.
+    \item La facture est visible dans la liste des factures impayées.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Factures" (/dashboard/factures).
+    \item Le médecin clique sur "Créer une Facture".
+    \item Le système affiche le formulaire de création avec les champs : sélection patient, montant, description des actes.
+    \item Le médecin sélectionne le patient dans la liste déroulante.
+    \item Le médecin saisit le montant et la description (ex: "Consultation + Ordonnance").
+    \item Le médecin clique sur "Créer".
+    \item Le système valide les données (montant > 0, patient sélectionné, description non vide).
+    \item Le système génère un numéro de facture unique (format: FAC-YYYY-XXXX).
+    \item Le système envoie une requête POST /api/factures avec les données.
+    \item Le backend enregistre la facture avec statut "IMPAYEE" et date d'émission.
+    \item Le système affiche un message de succès "Facture créée avec succès".
+    \item Le système rafraîchit la liste des factures.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Aucun patient sélectionné \(\rightarrow\) affichage d'un message "Veuillez sélectionner un patient".
+    \item Le montant est inférieur ou égal à 0 \(\rightarrow\) affichage d'un message "Le montant doit être supérieur à 0".
+    \item La description est vide \(\rightarrow\) affichage d'un message "La description est obligatoire".
+    \item Erreur serveur lors de la création \(\rightarrow\) affichage d'un message "Erreur lors de la création, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Enregistrer un Paiement" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Enregistrer un Paiement"} présente la description textuelle du cas d'utilisation "Enregistrer un Paiement". Ce scénario permet au médecin de marquer une facture comme payée.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Enregistrer un Paiement"}
+\label{tableau:Description textuelle du cas d'utilisation "Enregistrer un Paiement"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Enregistrer un Paiement\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Enregistrer un Paiement\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Une facture existe avec le statut "IMPAYEE".
+    \item Le médecin a accès à la section "Factures".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le statut de la facture passe à "PAYEE".
+    \item Le mode de paiement est enregistré (CB, Espèces, Chèque, Virement).
+    \item La date de paiement est enregistrée automatiquement.
+    \item La facture disparaît de la liste des impayées et apparaît dans les factures payées.
+    \item Les statistiques financières sont mises à jour automatiquement.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Factures" et filtre sur "Impayées".
+    \item Le médecin sélectionne une facture impayée dans la liste.
+    \item Le médecin clique sur "Enregistrer Paiement".
+    \item Le système affiche un formulaire modal avec sélection du mode de paiement (CB, Espèces, Chèque, Virement).
+    \item Le médecin sélectionne le mode de paiement.
+    \item Le médecin clique sur "Confirmer".
+    \item Le système envoie une requête PATCH /api/factures/\{id\}/payer avec le mode de paiement.
+    \item Le backend met à jour la facture : statut = "PAYEE", datePaiement = NOW(), modePaiement.
+    \item Le système affiche un message de succès "Paiement enregistré avec succès".
+    \item Le système rafraîchit la liste des factures.
+    \item Le système met à jour les statistiques du dashboard (graphiques de revenus).
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Aucun mode de paiement sélectionné \(\rightarrow\) affichage d'un message "Veuillez sélectionner un mode de paiement".
+    \item La facture est déjà payée \(\rightarrow\) affichage d'un message "Cette facture est déjà payée".
+    \item Erreur serveur lors de l'enregistrement \(\rightarrow\) affichage d'un message "Erreur lors de l'enregistrement, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Modifier un Assistant" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Modifier un Assistant"} présente la description textuelle du cas d'utilisation "Modifier un Assistant". Ce scénario permet au médecin de mettre à jour les informations d'un assistant existant.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Modifier un Assistant"}
+\label{tableau:Description textuelle du cas d'utilisation "Modifier un Assistant"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Assistant\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Assistant\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un assistant existe dans le système.
+    \item Le médecin a accès à la section "Gestion des Assistants".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Les informations de l'assistant sont mises à jour dans la base de données.
+    \item Les modifications sont visibles dans la liste des assistants.
+    \item Si le mot de passe est modifié, il est hashé avec BCrypt avant stockage.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Gestion des Assistants" (/dashboard/assistants).
+    \item Le médecin sélectionne un assistant dans la liste.
+    \item Le médecin clique sur "Modifier" (icône crayon).
+    \item Le système affiche un formulaire pré-rempli avec les informations actuelles (nom, email, username).
+    \item Le médecin modifie les champs souhaités (nom, email, ou mot de passe).
+    \item Le médecin clique sur "Enregistrer".
+    \item Le système valide les données (format email, force mot de passe si modifié).
+    \item Le système envoie une requête PUT /api/assistants/modifier/\{id\} avec les données mises à jour.
+    \item Le backend met à jour l'assistant en base via AssistantService.update().
+    \item Le système affiche un message de succès "Assistant modifié avec succès".
+    \item Le système rafraîchit la liste des assistants.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin laisse des champs obligatoires vides \(\rightarrow\) affichage d'erreurs de validation.
+    \item Le format de l'email est invalide \(\rightarrow\) affichage d'un message "Email invalide".
+    \item Le nouveau mot de passe est trop faible \(\rightarrow\) affichage d'un message "Le mot de passe doit contenir au moins 8 caractères".
+    \item L'email est déjà utilisé par un autre utilisateur \(\rightarrow\) affichage d'un message "Un compte avec cet email existe déjà".
+    \item Erreur serveur lors de la modification \(\rightarrow\) affichage d'un message "Erreur lors de la modification, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Activer/Désactiver un Assistant" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Activer/Désactiver un Assistant"} présente la description textuelle du cas d'utilisation "Activer/Désactiver un Assistant". Ce scénario permet au médecin de bloquer temporairement l'accès d'un assistant sans supprimer ses données.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Activer/Désactiver un Assistant"}
+\label{tableau:Description textuelle du cas d'utilisation "Activer/Désactiver un Assistant"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Activer/Désactiver un Assistant\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Activer/Désactiver un Assistant\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un assistant existe dans le système.
+    \item Le médecin a accès à la section "Gestion des Assistants".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le statut de l'assistant (active) est basculé (true $\leftrightarrow$ false).
+    \item Un email de notification est envoyé automatiquement via NotificationEmailService.
+    \item Si désactivé, l'assistant ne peut plus se connecter au système.
+    \item Si activé, l'assistant retrouve l'accès au système.
+    \item Le badge visuel (Actif/Inactif) est mis à jour dans l'interface.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Gestion des Assistants" (/dashboard/assistants).
+    \item Le médecin sélectionne un assistant dans la liste.
+    \item Le médecin clique sur le bouton "Activer" ou "Désactiver" selon l'état actuel.
+    \item Le système affiche une boîte de dialogue de confirmation "Voulez-vous vraiment activer/désactiver cet assistant ?".
+    \item Le médecin confirme l'action.
+    \item Le système envoie une requête PATCH /api/assistants/activer/\{id\} (toggle automatique).
+    \item Le backend bascule le champ active (true $\leftrightarrow$ false) via AssistantService.toggleActivation().
+    \item Le backend envoie un email de notification à l'assistant via NotificationEmailService.
+    \item Le système affiche un message de succès "Assistant activé/désactivé avec succès".
+    \item Le système rafraîchit la liste avec le nouveau statut visible.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin annule la confirmation \(\rightarrow\) aucune modification n'est effectuée.
+    \item L'assistant est déjà dans l'état souhaité \(\rightarrow\) affichage d'un message informatif.
+    \item Erreur serveur lors du changement de statut \(\rightarrow\) affichage d'un message "Erreur lors de l'opération, veuillez réessayer".
+    \item Échec d'envoi de l'email de notification \(\rightarrow\) le statut est quand même modifié, mais un avertissement est affiché.
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Supprimer un Assistant" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Supprimer un Assistant"} présente la description textuelle du cas d'utilisation "Supprimer un Assistant". Ce scénario permet au médecin de supprimer définitivement un assistant du système.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Supprimer un Assistant"}
+\label{tableau:Description textuelle du cas d'utilisation "Supprimer un Assistant"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Supprimer un Assistant\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Supprimer un Assistant\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un assistant existe dans le système.
+    \item Le médecin a accès à la section "Gestion des Assistants".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item L'assistant est supprimé définitivement de la base de données.
+    \item Toutes les références à cet assistant sont traitées (rendez-vous créés par lui conservés avec référence null ou ID).
+    \item L'assistant ne peut plus se connecter au système.
+    \item L'assistant disparaît de la liste des assistants.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Gestion des Assistants" (/dashboard/assistants).
+    \item Le médecin sélectionne un assistant dans la liste.
+    \item Le médecin clique sur "Supprimer" (icône poubelle).
+    \item Le système affiche une boîte de dialogue de confirmation "Êtes-vous sûr de vouloir supprimer définitivement cet assistant ? Cette action est irréversible.".
+    \item Le médecin confirme la suppression.
+    \item Le système envoie une requête DELETE /api/assistants/supprimer/\{id\}.
+    \item Le backend supprime l'assistant de la base de données via AssistantService.delete().
+    \item Le système affiche un message de succès "Assistant supprimé avec succès".
+    \item Le système rafraîchit la liste des assistants.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin annule la confirmation \(\rightarrow\) aucune suppression n'est effectuée.
+    \item L'assistant a des rendez-vous actifs associés \(\rightarrow\) affichage d'un avertissement "Cet assistant a créé X rendez-vous. Les rendez-vous seront conservés mais sans référence à l'assistant.".
+    \item Erreur serveur lors de la suppression \(\rightarrow\) affichage d'un message "Erreur lors de la suppression, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Modifier un Dossier Médical" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Modifier un Dossier Médical"} présente la description textuelle du cas d'utilisation "Modifier un Dossier Médical". Ce scénario permet au médecin de mettre à jour un dossier médical existant.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Modifier un Dossier Médical"}
+\label{tableau:Description textuelle du cas d'utilisation "Modifier un Dossier Médical"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Dossier Médical\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Dossier Médical\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un dossier médical existe dans le système.
+    \item Le médecin a accès à la section "Dossiers Médicaux".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Les informations du dossier médical sont mises à jour dans la base de données.
+    \item La date de dernière modification est enregistrée automatiquement.
+    \item Les documents existants sont conservés, les nouveaux documents sont ajoutés.
+    \item Les modifications sont visibles dans l'historique des dossiers du patient.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Dossiers Médicaux" (/dashboard/dossiers).
+    \item Le médecin sélectionne un dossier médical dans la liste.
+    \item Le médecin clique sur "Modifier".
+    \item Le système affiche le formulaire pré-rempli avec les informations actuelles (diagnostic, traitement, symptômes, observations, recommandations).
+    \item Le médecin modifie les champs souhaités (diagnostic, traitement, observations, etc.).
+    \item Le médecin peut ajouter de nouveaux documents médicaux.
+    \item Le médecin clique sur "Enregistrer".
+    \item Le système valide les données (champs obligatoires : diagnostic, traitement).
+    \item Le système envoie une requête PUT /api/dossiers/\{id\} avec DossierPatientDTO mis à jour.
+    \item Le backend met à jour le dossier via DossierPatientService.update().
+    \item Les nouveaux fichiers sont uploadés via POST /api/dossiers/\{id\}/files.
+    \item Le système affiche un message de succès "Dossier médical modifié avec succès".
+    \item Le système rafraîchit l'affichage du dossier.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin laisse des champs obligatoires vides \(\rightarrow\) affichage d'erreurs de validation.
+    \item Le fichier uploadé est trop volumineux (> 10 MB) \(\rightarrow\) affichage d'un message "Fichier trop volumineux".
+    \item Le format de fichier est non autorisé \(\rightarrow\) affichage d'un message "Format non supporté".
+    \item Erreur serveur lors de la modification \(\rightarrow\) affichage d'un message "Erreur lors de la modification, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Supprimer une Facture" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Supprimer une Facture"} présente la description textuelle du cas d'utilisation "Supprimer une Facture". Ce scénario permet au médecin de supprimer définitivement une facture (action réservée au médecin uniquement).
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Supprimer une Facture"}
+\label{tableau:Description textuelle du cas d'utilisation "Supprimer une Facture"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Supprimer une Facture\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Supprimer une Facture\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN" (vérification @PreAuthorize).
+    \item Une facture existe dans le système.
+    \item Le médecin a accès à la section "Factures".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item La facture est supprimée définitivement de la base de données.
+    \item La facture disparaît de toutes les listes (payées/impayées).
+    \item Les statistiques financières sont recalculées automatiquement.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Factures" (/dashboard/factures).
+    \item Le médecin sélectionne une facture dans la liste.
+    \item Le médecin clique sur "Supprimer" (icône poubelle).
+    \item Le système affiche une boîte de dialogue de confirmation "Êtes-vous sûr de vouloir supprimer cette facture ? Cette action est irréversible.".
+    \item Le médecin confirme la suppression.
+    \item Le système envoie une requête DELETE /api/factures/\{id\}.
+    \item Le backend vérifie @PreAuthorize("hasRole('MEDECIN')") - seul le médecin peut supprimer.
+    \item Le backend supprime la facture via FactureService.delete().
+    \item Le système affiche un message de succès "Facture supprimée avec succès".
+    \item Le système rafraîchit la liste des factures et met à jour les statistiques.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin annule la confirmation \(\rightarrow\) aucune suppression n'est effectuée.
+    \item L'utilisateur n'est pas médecin \(\rightarrow\) erreur 403 Forbidden (ne devrait pas arriver si l'interface masque le bouton).
+    \item La facture a déjà été supprimée \(\rightarrow\) affichage d'un message "Facture introuvable".
+    \item Erreur serveur lors de la suppression \(\rightarrow\) affichage d'un message "Erreur lors de la suppression, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Consulter les Patients" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Consulter les Patients"} présente la description textuelle du cas d'utilisation "Consulter les Patients". Ce scénario permet au médecin de visualiser la liste complète de ses patients.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Consulter les Patients"}
+\label{tableau:Description textuelle du cas d'utilisation "Consulter les Patients"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Consulter les Patients\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Consulter les Patients\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Le médecin a accès à la section "Patients".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item La liste complète des patients est affichée avec leurs informations essentielles.
+    \item Le médecin peut accéder au profil détaillé de chaque patient.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Patients" (/dashboard/patients).
+    \item Le système envoie une requête GET /api/patients.
+    \item Le backend récupère tous les patients via PatientService.findAll().
+    \item Le système affiche la liste avec : nom, téléphone, email, date d'inscription, nombre de RDV.
+    \item Le médecin peut rechercher un patient par nom ou téléphone.
+    \item Le médecin peut cliquer sur un patient pour voir le profil détaillé.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Aucun patient n'existe \(\rightarrow\) affichage d'un message "Aucun patient enregistré".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors du chargement, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Modifier un Patient" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Modifier un Patient"} présente la description textuelle du cas d'utilisation "Modifier un Patient". Ce scénario permet au médecin de mettre à jour les informations personnelles d'un patient.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Modifier un Patient"}
+\label{tableau:Description textuelle du cas d'utilisation "Modifier un Patient"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Patient\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Patient\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un patient existe dans le système.
+    \item Le médecin a accès à la section "Patients".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Les informations du patient sont mises à jour dans la base de données.
+    \item Les modifications sont visibles dans le profil du patient.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède au profil d'un patient.
+    \item Le médecin clique sur "Modifier".
+    \item Le système affiche le formulaire pré-rempli avec les informations actuelles (nom, téléphone, adresse, date de naissance).
+    \item Le médecin modifie les champs souhaités.
+    \item Le médecin clique sur "Enregistrer".
+    \item Le système valide les données (format téléphone, date de naissance).
+    \item Le système envoie une requête PUT /api/patients/\{id\} avec PatientDTO mis à jour.
+    \item Le backend met à jour le patient via PatientService.update().
+    \item Le système affiche un message de succès "Patient modifié avec succès".
+    \item Le système rafraîchit l'affichage du profil.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le format du téléphone est invalide \(\rightarrow\) affichage d'un message "Format de téléphone invalide".
+    \item La date de naissance est future \(\rightarrow\) affichage d'un message "Date de naissance invalide".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors de la modification, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Créer un Rendez-vous" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Créer un Rendez-vous"} présente la description textuelle du cas d'utilisation "Créer un Rendez-vous". Ce scénario permet au médecin de planifier un nouveau rendez-vous pour un patient.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Créer un Rendez-vous"}
+\label{tableau:Description textuelle du cas d'utilisation "Créer un Rendez-vous"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Créer un Rendez-vous\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Créer un Rendez-vous\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Au moins un patient existe dans le système.
+    \item Le médecin a accès à la section "Rendez-vous".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Un nouveau rendez-vous est créé avec le statut "PLANIFIE".
+    \item Le rendez-vous est visible dans le calendrier du médecin.
+    \item Une notification est envoyée au patient (email).
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Rendez-vous" (/dashboard/rendezvous).
+    \item Le médecin clique sur "Nouveau Rendez-vous".
+    \item Le système affiche le formulaire avec : sélection patient, date, heure, durée, motif.
+    \item Le médecin sélectionne un patient dans la liste déroulante.
+    \item Le médecin choisit une date et une heure disponible.
+    \item Le médecin saisit le motif de consultation.
+    \item Le médecin clique sur "Créer".
+    \item Le système vérifie la disponibilité du créneau.
+    \item Le système envoie une requête POST /api/rendezvous avec RendezVousDTO.
+    \item Le backend enregistre le RDV avec statut "PLANIFIE".
+    \item Le système envoie une notification email au patient via NotificationEmailService.
+    \item Le système affiche un message de succès "Rendez-vous créé avec succès".
+    \item Le système affiche le nouveau RDV dans le calendrier.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le créneau est déjà occupé \(\rightarrow\) affichage d'un message "Ce créneau est déjà réservé".
+    \item Aucun patient sélectionné \(\rightarrow\) affichage d'un message "Veuillez sélectionner un patient".
+    \item La date est passée \(\rightarrow\) affichage d'un message "Impossible de créer un RDV dans le passé".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors de la création, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Modifier un Rendez-vous" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Modifier un Rendez-vous"} présente la description textuelle du cas d'utilisation "Modifier un Rendez-vous". Ce scénario permet au médecin de modifier les détails d'un rendez-vous planifié.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Modifier un Rendez-vous"}
+\label{tableau:Description textuelle du cas d'utilisation "Modifier un Rendez-vous"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Rendez-vous\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Modifier un Rendez-vous\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un rendez-vous existe avec le statut "PLANIFIE" ou "CONFIRME".
+    \item Le médecin a accès à la section "Rendez-vous".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le rendez-vous est mis à jour avec les nouvelles informations.
+    \item Une notification de modification est envoyée au patient (email).
+    \item Le calendrier est mis à jour automatiquement.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Rendez-vous".
+    \item Le médecin sélectionne un rendez-vous dans la liste ou le calendrier.
+    \item Le médecin clique sur "Modifier".
+    \item Le système affiche le formulaire pré-rempli avec les informations actuelles.
+    \item Le médecin modifie les champs souhaités (date, heure, motif).
+    \item Le médecin clique sur "Enregistrer".
+    \item Le système vérifie la disponibilité du nouveau créneau si la date/heure a changé.
+    \item Le système envoie une requête PUT /api/rendezvous/\{id\} avec RendezVousDTO mis à jour.
+    \item Le backend met à jour le RDV via RendezVousService.update().
+    \item Le système envoie une notification de modification au patient.
+    \item Le système affiche un message de succès "Rendez-vous modifié avec succès".
+    \item Le système rafraîchit le calendrier.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le nouveau créneau est déjà occupé \(\rightarrow\) affichage d'un message "Ce créneau est déjà réservé".
+    \item Le rendez-vous a déjà eu lieu (statut "TERMINE") \(\rightarrow\) affichage d'un message "Impossible de modifier un RDV terminé".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors de la modification, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Annuler un Rendez-vous" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Annuler un Rendez-vous"} présente la description textuelle du cas d'utilisation "Annuler un Rendez-vous". Ce scénario permet au médecin d'annuler un rendez-vous planifié.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Annuler un Rendez-vous"}
+\label{tableau:Description textuelle du cas d'utilisation "Annuler un Rendez-vous"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Annuler un Rendez-vous\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Annuler un Rendez-vous\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un rendez-vous existe avec le statut "PLANIFIE" ou "CONFIRME".
+    \item Le médecin a accès à la section "Rendez-vous".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le statut du rendez-vous passe à "ANNULE".
+    \item Une notification d'annulation est envoyée au patient (email).
+    \item Le créneau redevient disponible dans le calendrier.
+    \item Le RDV apparaît dans la liste des RDV annulés.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Rendez-vous".
+    \item Le médecin sélectionne un rendez-vous planifié.
+    \item Le médecin clique sur "Annuler".
+    \item Le système affiche une boîte de dialogue de confirmation "Voulez-vous vraiment annuler ce rendez-vous ? Le patient sera notifié.".
+    \item Le médecin peut saisir un motif d'annulation (optionnel).
+    \item Le médecin confirme l'annulation.
+    \item Le système envoie une requête PATCH /api/rendezvous/\{id\}/annuler avec le motif.
+    \item Le backend change le statut à "ANNULE" via RendezVousService.annuler().
+    \item Le système envoie une notification d'annulation au patient avec le motif.
+    \item Le système affiche un message de succès "Rendez-vous annulé avec succès".
+    \item Le système rafraîchit le calendrier et la liste des RDV.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le médecin annule la confirmation \(\rightarrow\) aucune annulation n'est effectuée.
+    \item Le rendez-vous est déjà annulé \(\rightarrow\) affichage d'un message "Ce rendez-vous est déjà annulé".
+    \item Le rendez-vous est déjà terminé \(\rightarrow\) affichage d'un message "Impossible d'annuler un RDV terminé".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors de l'annulation, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Consulter un Dossier Médical" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Consulter un Dossier Médical"} présente la description textuelle du cas d'utilisation "Consulter un Dossier Médical". Ce scénario permet au médecin de visualiser l'historique médical complet d'un patient.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Consulter un Dossier Médical"}
+\label{tableau:Description textuelle du cas d'utilisation "Consulter un Dossier Médical"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Consulter un Dossier Médical\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Consulter un Dossier Médical\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un patient existe dans le système.
+    \item Le médecin a accès à la section "Dossiers Médicaux".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le médecin peut visualiser tous les dossiers médicaux du patient.
+    \item Le médecin peut accéder aux documents associés à chaque dossier.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Dossiers Médicaux" (/dashboard/dossiers).
+    \item Le médecin sélectionne un patient dans la liste.
+    \item Le système envoie une requête GET /api/dossiers/patient/\{id\}.
+    \item Le backend récupère tous les dossiers du patient via DossierPatientService.findByPatient().
+    \item Le système affiche l'historique complet avec : date de consultation, diagnostic, traitement, observations, recommandations.
+    \item Le médecin peut cliquer sur un dossier pour voir les détails complets.
+    \item Le médecin peut visualiser la liste des documents attachés (PDF, images).
+    \item Le médecin peut télécharger ou visualiser chaque document.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Aucun dossier médical n'existe pour ce patient \(\rightarrow\) affichage d'un message "Aucun dossier médical pour ce patient".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors du chargement, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Ajouter des Documents à un Dossier" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Ajouter des Documents à un Dossier"} présente la description textuelle du cas d'utilisation "Ajouter des Documents à un Dossier". Ce scénario permet au médecin d'uploader des documents médicaux (PDF, images).
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Ajouter des Documents à un Dossier"}
+\label{tableau:Description textuelle du cas d'utilisation "Ajouter des Documents à un Dossier"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Ajouter des Documents à un Dossier\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Ajouter des Documents à un Dossier\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un dossier médical existe dans le système.
+    \item Le médecin a des fichiers à uploader (PDF, JPG, PNG).
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Les documents sont uploadés et stockés dans le système de fichiers.
+    \item Les métadonnées des documents sont enregistrées dans la base de données.
+    \item Les documents sont visibles dans le dossier médical du patient.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède au dossier médical d'un patient.
+    \item Le médecin clique sur "Ajouter des Documents".
+    \item Le système affiche un dialogue de sélection de fichiers.
+    \item Le médecin sélectionne un ou plusieurs fichiers (PDF, JPG, PNG).
+    \item Le médecin peut ajouter une description pour chaque document (optionnel).
+    \item Le médecin clique sur "Uploader".
+    \item Le système valide les fichiers (type, taille < 10 MB).
+    \item Le système envoie une requête POST /api/dossiers/\{id\}/files avec FormData (multipart).
+    \item Le backend sauvegarde les fichiers via FileStorageService.
+    \item Le backend enregistre les métadonnées (nom original, chemin, type MIME, taille) dans la table Document.
+    \item Le système affiche un message de succès "Documents uploadés avec succès".
+    \item Le système rafraîchit la liste des documents du dossier.
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le fichier est trop volumineux (> 10 MB) \(\rightarrow\) affichage d'un message "Fichier trop volumineux (max 10 MB)".
+    \item Le format de fichier est non autorisé \(\rightarrow\) affichage d'un message "Format non supporté. Formats acceptés : PDF, JPG, PNG".
+    \item Erreur lors de l'upload \(\rightarrow\) affichage d'un message "Erreur lors de l'upload, veuillez réessayer".
+    \item Espace disque insuffisant \(\rightarrow\) affichage d'un message "Erreur serveur : espace insuffisant".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Télécharger des Documents" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Télécharger des Documents"} présente la description textuelle du cas d'utilisation "Télécharger des Documents". Ce scénario permet au médecin de télécharger un document médical sur son ordinateur.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Télécharger des Documents"}
+\label{tableau:Description textuelle du cas d'utilisation "Télécharger des Documents"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Télécharger des Documents\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Télécharger des Documents\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Un document existe dans un dossier médical.
+    \item Le médecin a accès à la section "Dossiers Médicaux".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Le document est téléchargé sur l'ordinateur du médecin.
+    \item Le nom original du fichier est conservé.
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède au dossier médical d'un patient.
+    \item Le médecin visualise la liste des documents attachés.
+    \item Le médecin clique sur "Télécharger" (icône download) à côté d'un document.
+    \item Le système envoie une requête GET /api/dossiers/\{dossierId\}/files/\{docId\}.
+    \item Le backend récupère le fichier via FileStorageService.load().
+    \item Le backend envoie le fichier avec les en-têtes appropriés (Content-Disposition: attachment).
+    \item Le navigateur déclenche le téléchargement automatique avec le nom original du fichier.
+    \item Le système affiche un message de succès "Document téléchargé avec succès".
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Le fichier n'existe plus sur le serveur \(\rightarrow\) affichage d'un message "Fichier introuvable sur le serveur".
+    \item Erreur serveur lors du téléchargement \(\rightarrow\) affichage d'un message "Erreur lors du téléchargement, veuillez réessayer".
+    \item Le médecin n'a pas les droits d'accès \(\rightarrow\) erreur 403 Forbidden.
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\textbf{Description textuelle du cas d'utilisation "Générer des Rapports" :}\\
+Le tableau \ref{tableau:Description textuelle du cas d'utilisation "Générer des Rapports"} présente la description textuelle du cas d'utilisation "Générer des Rapports". Ce scénario permet au médecin de générer des rapports financiers détaillés avec statistiques.
+
+\begin{longtable}{|p{5cm}|p{10cm}|}
+\caption{Description textuelle du cas d'utilisation "Générer des Rapports"}
+\label{tableau:Description textuelle du cas d'utilisation "Générer des Rapports"}
+\\
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Générer des Rapports\\
+\hline
+\endfirsthead
+\hline
+\cellcolor[HTML]{FFF2CC}Cas d'utilisation  
+& \cellcolor[HTML]{FFF2CC}Générer des Rapports\\
+\hline
+\endhead
+Acteur & Médecin
+\\ \hline
+Précondition & 
+\begin{enumerate}
+    \item Le médecin est authentifié avec le rôle "MEDECIN".
+    \item Des factures existent dans le système.
+    \item Le médecin a accès à la section "Rapports".
+\end{enumerate}
+\\ \hline
+Post-condition & 
+\begin{enumerate}
+    \item Un rapport financier détaillé est généré avec statistiques complètes.
+    \item Le rapport affiche : chiffre d'affaires total, montant des impayés, nombre de factures, taux de paiement.
+    \item Le rapport peut être filtré par période (jour, semaine, mois, année).
+    \item Le rapport peut être exporté en PDF ou Excel (si implémenté).
+\end{enumerate}
+\\ \hline
+Scénario principal & 
+\begin{enumerate}
+    \item Le médecin accède à la section "Rapports" (/dashboard/rapports).
+    \item Le médecin sélectionne une période (date début, date fin).
+    \item Le médecin peut choisir des filtres supplémentaires (statut : payée/impayée, patient spécifique).
+    \item Le médecin clique sur "Générer Rapport".
+    \item Le système envoie une requête GET /api/factures/rapports avec les filtres (dateDebut, dateFin, statut).
+    \item Le backend calcule les statistiques via FactureService.generateReport() :
+    \begin{itemize}
+        \item Chiffre d'affaires total (somme des factures payées)
+        \item Montant des impayés (somme des factures impayées)
+        \item Nombre total de factures
+        \item Taux de paiement (pourcentage de factures payées)
+        \item Répartition par mode de paiement (CB, Espèces, Chèque, Virement)
+    \end{itemize}
+    \item Le système affiche le rapport avec graphiques (barres, camembert) et tableaux détaillés.
+    \item Le médecin peut exporter le rapport en PDF ou Excel (bouton "Exporter").
+\end{enumerate}
+\\ \hline
+Scénario alternatif & 
+\begin{enumerate}
+    \item Aucune facture dans la période sélectionnée \(\rightarrow\) affichage d'un message "Aucune facture pour cette période".
+    \item La date de début est postérieure à la date de fin \(\rightarrow\) affichage d'un message "Dates invalides".
+    \item Erreur serveur \(\rightarrow\) affichage d'un message "Erreur lors de la génération, veuillez réessayer".
+\end{enumerate}
+\\\hline
+\end{longtable}
+
+\section{Conception}
+Dans cette section, nous présentons les diagrammes de conception du sprint 1, notamment le diagramme de séquence et le diagramme de classes.
+
+\subsection{Diagrammes de séquence}
+
+\textbf{Diagramme de séquence "S'authentifier" :}\\
+La figure 3.2 illustre le diagramme de séquence d'authentification du médecin, montrant les interactions entre le médecin, le frontend Next.js, l'API REST Spring Boot, et la génération du token JWT.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=13cm]{images/sequence-authentification.png}%
+    \caption{Diagramme de séquence - S'authentifier}%
+\end{figure}
+
+\textbf{Diagramme de séquence "Créer un Assistant" :}\\
+La figure 3.3 illustre le diagramme de séquence de création d'un assistant avec hashage BCrypt du mot de passe et envoi d'email de notification.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=13cm]{images/sequence-creer-assistant.png}%
+    \caption{Diagramme de séquence - Créer un Assistant}%
+\end{figure}
+
+\textbf{Diagramme de séquence "Créer un Rendez-vous" :}\\
+La figure 3.4 illustre le diagramme de séquence de création d'un rendez-vous avec vérification de disponibilité du créneau et notification automatique au patient.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=13cm]{images/sequence-creer-rendezvous.png}%
+    \caption{Diagramme de séquence - Créer un Rendez-vous}%
+\end{figure}
+
+\textbf{Diagramme de séquence "Modifier un Dossier Médical" :}\\
+La figure 3.5 illustre le diagramme de séquence de modification d'un dossier médical, montrant les interactions entre le médecin, le frontend Next.js, l'API REST Spring Boot et la base de données.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=14cm]{images/sequence-modifier-dossier.png}%
+    \caption{Diagramme de séquence - Modifier un Dossier Médical}%
+\end{figure}
+
+\textbf{Diagramme de séquence "Uploader des Documents" :}\\
+La figure 3.6 illustre le diagramme de séquence d'upload de documents médicaux avec gestion multipart/form-data et stockage sur le serveur.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=13cm]{images/sequence-upload-documents.png}%
+    \caption{Diagramme de séquence - Uploader des Documents}%
+\end{figure}
+
+\textbf{Diagramme de séquence "Créer une Facture" :}\\
+La figure 3.7 illustre le diagramme de séquence de création d'une facture avec génération automatique du numéro de facture unique.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=13cm]{images/sequence-creer-facture.png}%
+    \caption{Diagramme de séquence - Créer une Facture}%
+\end{figure}
+
+\textbf{Diagramme de séquence "Enregistrer un Paiement" :}\\
+La figure 3.8 illustre le diagramme de séquence d'enregistrement d'un paiement sur une facture avec mise à jour automatique des statistiques.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=15cm,height=12cm]{images/sequence-paiement-facture.png}%
+    \caption{Diagramme de séquence - Enregistrer un Paiement}%
+\end{figure}
+
+\subsection{Diagramme de classes du sprint 1}
+
+Le diagramme de classes du sprint 1, présenté dans la figure 3.9, illustre les entités principales du système pour l'espace médecin : User (Médecin, Assistant), Patient, DossierMedical, Document, Facture, RendezVous.
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=14cm]{images/class-diagram-sprint1.png}%
+    \caption{Diagramme de classes - Sprint 1}%
+\end{figure}
+
+\textbf{Description des principales classes :}
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+    \begin{spacing}{1.25}
+    \item \textbf{User :} Représente les utilisateurs (Médecin, Assistant) avec id, nom, email, password (BCrypt hashé), role (enum: MEDECIN/ASSISTANT/PATIENT), active (boolean). Annotations JPA : @Entity, @Table(name="users").
+    \item \textbf{Patient :} Représente un patient avec id, nom, prenom, dateNaissance, telephone, email, adresse. Relations OneToMany avec DossierPatient, Facture et RendezVous.
+    \item \textbf{DossierPatient :} Représente un dossier médical avec id, dateCreation, diagnostic, traitement, symptomes, observations, recommandations. Relations ManyToOne avec Patient et Medecin, OneToOne avec RendezVous (optionnelle), OneToMany avec Document.
+    \item \textbf{Document :} Représente un document médical avec id, nomFichier, cheminFichier, typeFichier, tailleFichier, dateUpload. Relation ManyToOne avec DossierPatient.
+    \item \textbf{Facture :} Représente une facture avec id, numeroFacture, montant, description, dateEmission, datePaiement, statut (enum: PAYEE/IMPAYEE), modePaiement (enum: CB/ESPECES/CHEQUE/VIREMENT). Relations ManyToOne avec Patient et Medecin.
+    \item \textbf{RendezVous :} Représente un rendez-vous avec id, dateHeureDebut, dateHeureFin, motif, statut (enum: CONFIRME/ANNULE/EN_ATTENTE). Relations ManyToOne avec Patient, Medecin et Assistant (créateur), OneToOne avec DossierPatient (cascade ALL).
+    \end{spacing}
+\end{itemize}
+
+\section{Réalisation}
+Cette section présente les captures d'écran des principales fonctionnalités développées pour l'espace médecin.
+
+\subsection{Authentification}
+
+\textbf{Figure 3.10 : Page de connexion médecin}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=10cm]{images/login-medecin.png}%
+    \caption{Page de connexion avec formulaire email/mot de passe et validation JWT}%
+\end{figure}
+
+\subsection{Tableau de bord médecin}
+
+\textbf{Figure 3.11 : Dashboard médecin avec statistiques}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=11cm]{images/dashboard-medecin.png}%
+    \caption{Dashboard avec cartes statistiques (patients, rendez-vous, factures), graphiques de revenus et prochains RDV du jour}%
+\end{figure}
+
+\subsection{Gestion des patients}
+
+\textbf{Figure 3.12 : Liste des patients}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=10cm]{images/liste-patients-medecin.png}%
+    \caption{Liste complète des patients avec nom, téléphone, email, date d'inscription et actions (consulter, modifier)}%
+\end{figure}
+
+\textbf{Figure 3.13 : Profil détaillé d'un patient}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=12cm]{images/profil-patient-medecin.png}%
+    \caption{Profil complet avec informations personnelles, historique des rendez-vous et accès aux dossiers médicaux}%
+\end{figure}
+
+\subsection{Gestion des rendez-vous}
+
+\textbf{Figure 3.14 : Calendrier des rendez-vous}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=12cm]{images/calendrier-medecin.png}%
+    \caption{Calendrier hebdomadaire avec rendez-vous colorés par statut (planifié, confirmé, terminé, annulé)}%
+\end{figure}
+
+\textbf{Figure 3.15 : Formulaire de création de rendez-vous}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=11cm]{images/creer-rendezvous-medecin.png}%
+    \caption{Formulaire modal avec sélection patient, date, heure, durée et motif de consultation}%
+\end{figure}
+
+\textbf{Figure 3.16 : Liste des rendez-vous avec filtres}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=10cm]{images/liste-rendezvous-medecin.png}%
+    \caption{Liste des rendez-vous avec filtres (date, statut, patient) et actions (modifier, annuler)}%
+\end{figure}
+
+\subsection{Gestion des assistants}
+
+\textbf{Figure 3.17 : Liste des assistants}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=10cm]{images/liste-assistants.png}%
+    \caption{Liste des assistants avec nom, email, statut (actif/inactif) et actions (modifier, activer/désactiver, supprimer)}%
+\end{figure}
+
+\textbf{Figure 3.18 : Formulaire de création d'assistant}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=11cm]{images/creer-assistant.png}%
+    \caption{Formulaire modal avec champs nom, email, mot de passe, confirmation mot de passe}%
+\end{figure}
+
+\subsection{Gestion des dossiers médicaux}
+
+\textbf{Figure 3.19 : Modification d'un dossier médical}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=13cm]{images/modifier-dossier-medical.png}%
+    \caption{Formulaire de modification avec champs diagnostic, traitement, observations, antécédents et zone d'upload de documents supplémentaires}%
+\end{figure}
+
+\textbf{Figure 3.20 : Historique des dossiers médicaux d'un patient}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=12cm]{images/historique-dossiers.png}%
+    \caption{Liste chronologique des dossiers avec date, diagnostic, traitement et documents associés (PDF, images)}%
+\end{figure}
+
+\textbf{Figure 3.21 : Upload de documents médicaux}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=10cm]{images/upload-documents.png}%
+    \caption{Interface d'upload avec drag \& drop, gestion multipart/form-data, validation des formats (PDF, JPG, PNG)}%
+\end{figure}
+
+\subsection{Gestion des factures}
+
+\textbf{Figure 3.22 : Liste des factures avec filtres}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=11cm]{images/liste-factures.png}%
+    \caption{Liste des factures avec filtres (payée/impayée, période), affichage du numéro, patient, montant, statut et actions}%
+\end{figure}
+
+\textbf{Figure 3.23 : Formulaire de création de facture}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=10cm]{images/creer-facture.png}%
+    \caption{Formulaire avec sélection patient, montant, description des actes et génération automatique du numéro de facture}%
+\end{figure}
+
+\textbf{Figure 3.24 : Enregistrement d'un paiement}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=13cm,height=9cm]{images/enregistrer-paiement.png}%
+    \caption{Modal de paiement avec sélection du mode (CB, Espèces, Chèque, Virement)}%
+\end{figure}
+
+\subsection{Rapports financiers}
+
+\textbf{Figure 3.25 : Rapports financiers détaillés}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=12cm]{images/rapports-financiers.png}%
+    \caption{Graphiques des revenus par mois avec statistiques (CA total, factures payées/impayées, taux de paiement, répartition par mode de paiement)}%
+\end{figure}
+
+\textbf{Figure 3.26 : Filtres et export de rapports}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=10cm]{images/filtres-rapports.png}%
+    \caption{Interface de filtrage par période (date début, date fin) avec boutons d'export PDF et Excel}%
+\end{figure}
+
+\subsection{Gestion du profil et paramètres}
+
+\textbf{Figure 3.27 : Profil médecin}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=14cm,height=11cm]{images/profil-medecin.png}%
+    \caption{Formulaire de modification du profil avec nom, email, téléphone et changement de mot de passe sécurisé}%
+\end{figure}
+
+\textbf{Figure 3.28 : Paramètres du cabinet}
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16cm,height=11cm]{images/parametres-cabinet.png}%
+    \caption{Configuration des horaires de travail, durée par défaut des rendez-vous et préférences de notification}%
+\end{figure}
+
+\section{CONCLUSION}
+Ce chapitre a présenté la réalisation du sprint 1 focalisé sur l'espace médecin, qui constitue le cœur du système de gestion de cabinet médical. Nous avons développé l'ensemble des fonctionnalités essentielles regroupées en 10 modules principaux :
+
+\begin{itemize}
+    \item \textbf{Authentification sécurisée} : connexion et déconnexion avec gestion de session JWT
+    \item \textbf{Gestion des assistants} : création, consultation, modification, activation/désactivation et suppression des comptes assistants avec notifications automatiques
+    \item \textbf{Gestion des patients} : consultation de la liste complète, modification des informations personnelles, recherche rapide et accès au profil détaillé avec historique
+    \item \textbf{Gestion des rendez-vous} : création, consultation avec filtres, modification, annulation avec notification automatique, et visualisation dans un calendrier interactif
+    \item \textbf{Gestion des dossiers médicaux} : consultation de l'historique complet, modification des dossiers existants, upload de documents médicaux (PDF, images) et téléchargement sécurisé
+    \item \textbf{Gestion financière complète} : création de factures, consultation avec filtres (payée/impayée, période), enregistrement des paiements avec mode (CB, espèces, chèque, virement), suppression réservée au médecin
+    \item \textbf{Génération de rapports} : rapports financiers détaillés avec statistiques (chiffre d'affaires, taux de paiement, impayés), exportation possible en PDF/Excel
+    \item \textbf{Tableau de bord} : vue d'ensemble avec statistiques principales, graphiques de performance, prochains rendez-vous du jour et accès rapide aux factures impayées
+    \item \textbf{Gestion du profil} : consultation et modification des informations personnelles, changement de mot de passe sécurisé
+    \item \textbf{Paramètres du cabinet} : configuration des horaires, durée des rendez-vous, préférences de notification
+\end{itemize}
+
+L'architecture technique mise en place (API REST Spring Boot + frontend Next.js) a permis de développer des interfaces modernes, réactives et sécurisées. Le système de contrôle d'accès basé sur les rôles (RBAC) garantit que seul le médecin peut accéder à ces fonctionnalités sensibles, notamment la suppression de factures et la gestion complète des assistants.
+
+Le sprint 1 représente un total de 36 user stories développées avec succès, couvrant l'intégralité des besoins fonctionnels du médecin. Le prochain chapitre détaillera le sprint 2 dédié à l'espace assistant, avec des permissions restreintes par rapport au médecin, notamment pour la gestion des patients, la gestion des rendez-vous et la création de factures.

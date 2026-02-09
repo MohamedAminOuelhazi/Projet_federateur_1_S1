@@ -1,0 +1,276 @@
+\chapter{CHAPITRE 2 : Étude préliminaire}
+\begin{spacing}{1.2}
+\minitoc
+\thispagestyle{MyStyle}
+\end{spacing}
+\newpage
+
+
+\section{INTRODUCTION}
+Ce chapitre présente l'étude préliminaire menée dans le cadre du développement de la plateforme de gestion de cabinet médical intégrant l'intelligence artificielle. L'objectif de cette étude est de spécifier de manière exhaustive les besoins fonctionnels et non fonctionnels du système, de modéliser les processus métiers à travers des diagrammes UML, et de planifier la mise en œuvre en adoptant une méthodologie agile Scrum structurée en trois sprints distincts. Cette phase d'analyse constitue le fondement technique et fonctionnel du projet, permettant d'établir un socle solide pour la conception et la réalisation de la solution, tout en garantissant l'adéquation entre les attentes des acteurs médicaux (médecins, assistants, patients) et les livrables attendus.
+
+
+\section{Spécification des besoins}
+La phase de spécification des besoins est une étape fondamentale vise à acquérir une compréhension approfondie du contexte du système. Elle contient l'identification des acteurs et des besoins fonctionnelles et non fonctionnelles, ainsi que la détermination le diagramme de cas d'utilisation globale et diagramme de classe globale. 
+\subsection{Identification des acteurs}
+
+L'analyse des processus métiers a permis d'identifier quatre acteurs principaux interagissant avec le système :
+
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{FTE (Fonctionnaire Technique)} : Un acteur responsable de la création des réunions et de la rédaction des PV. Il peut inviter des participants, joindre des documents, soumettre les PV pour validation et suivre l'état d'avancement du workflow. De plus, il a accès à un tableau de bord pour suivre ses activités.
+        \item \textbf{Direction Technique (DT)} : Un acteur chargé de la validation technique des réunion et des pv. Il peut consulter les PV soumis, les valider ou les rejeter avec des commentaires détaillés, et suivre l'historique des versions. Il reçoit des notifications automatiques pour les nouvelles soumissions.  
+        \item \textbf{Commission Technique (CT)} : Il peut consulter les PV validés par la DT, les approuver ou les rejeter avec un motif obligatoire, et signer électroniquement les PV approuvés. Il a également accès à l'historique complet des validations.
+        \end{spacing}
+\end{itemize}
+\begin{spacing}{0.5}
+\end{spacing}
+
+\subsection{Les besoins fonctionnels}
+Les fonctionnalités de notre application web et les services qu’elle offre aux différents acteurs sont présentés ci-dessous : 
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+
+\textbf{1- }\textbf{En tant que FTE : }
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{S’authentifier} : Le FTE a la possibilité de se connecter à son compte.
+    \item \textbf{Gérer les réunions} : Le FTE peut créer, modifier ou annuler des réunions, inviter des participants.
+    \item \textbf{Rédiger les PV} : Le FTE peut rédiger des PV associés aux réunions via un éditeur intégré, et gérer les différentes versions.
+    \item \textbf{Soumettre pour validation} : Le FTE peut soumettre les PV à la Direction Technique pour validation technique.
+    \item \textbf{Consulter l’état d’avancement} : Le FTE peut suivre en temps réel l'état des réunions et des PV (Brouillon, Soumis, Validé, Rejeté, Signé).
+        \end{spacing}
+\end{itemize}
+\begin{spacing}{0.5}
+\end{spacing}
+
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+
+\textbf{2- }\textbf{En tant que Direction Technique (DT) :}
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{S’authentifier} : Un Direction Technique (DT) peut se connecter à son compte.
+        \item \textbf{\textbf{Gérer les réunions}  } :Le DT peut , consulter, confirmer ou rejeter des réunions.
+
+        \item \textbf{Consulter les PV soumis} :La DT peut accéder à la liste des PV en attente de validation technique.
+
+        \item \textbf{Valider ou rejeter les PV} :La DT peut valider les PV conformes ou les rejeter avec des commentaires détaillés.
+
+        \end{spacing}
+\end{itemize}
+\begin{spacing}{0.5}
+\end{spacing}
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+
+\textbf{3- }\textbf{En tant que Commission Technique (CT) :}
+
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{S’authentifier } : Le CT  peut se connecter à son compte.
+
+        \item \textbf{Consulter les réunion soumis } : Le CT  peut accéder à la liste des réunion.
+
+        \item \textbf{Consulter les pv soumis } : Le CT  peut accéder à la liste des PV en attente de validation technique.
+
+        \item \textbf{Valider ou rejeter les PV} :La CT peut valider les PV conformes ou les rejeter avec des commentaires détaillés.
+        
+        \end{spacing}
+\end{itemize}
+
+
+\subsection{Les besoins non fonctionnels}
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+
+Les exigences non fonctionnelles définissent les objectifs relatifs à la performance du système et aux contraintes de son environnement. Lors de l'élaboration d'un projet, nous devons prendre en compte ces exigences non fonctionnelles, qui sont des aspects internes que l'utilisateur ne perçoit pas directement. Notre application doit satisfaire aux critères suivants :
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+        \item \textbf{Fiabilité : }L’application web doit être fiable et robuste, minimisant ainsi les erreurs et assurant l’extraction et l’alignement corrects des données. 
+        \item  \textbf{Adaptabilité :} L’application web doit être conçue de manière à s’adapter de manière fluide et efficace à différentes résolutions d’écran et à différents appareils, notamment les ordinateurs de bureau, les tablettes et les smartphones. 
+        \item  \textbf{Convivialité : }La plateforme doit être simple et facile à manipuler même par des non experts.
+        \item  \textbf{Sécurité : }Compte tenu de la présence des données personnelles dans l’application web, il est impératif de sécuriser l’accès à tous les espaces en utilisant un système de mot de passe crypté et de privilèges d’accès. 
+        \end{spacing}
+\end{itemize}
+\begin{spacing}{0.5}
+\end{spacing}
+
+\section{Détails fonctionnels}
+
+
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+Dans cette section, nous présenterons le diagramme de cas d’utilisation général et le diagramme de classe global.
+
+\subsection{Diagramme de cas d’utilisation global}
+Un diagramme de cas d'utilisation global est un outil de modélisation UML qui offre une vue d'ensemble des interactions entre les utilisateurs (appelés acteurs) et un système. Il s'agit d'une représentation visuelle des fonctionnalités du système et de la manière dont les utilisateurs les exploitent. \par
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    
+    \includegraphics[width=18 cm,height=18cm]{images/use case general digram.drawio.png }%
+    
+    \caption{Diagramme de cas d'utilisation global}%
+    
+\end{figure}
+\subsection{Diagramme de classe global}
+
+Un diagramme de classes est essentiel pour visualiser un système logiciel, identifier les classes, ainsi que leurs relations et dépendances. Il facilite la communication entre les membres de l'équipe de développement et sert de fondation pour la conception et l'implémentation du système.   \par
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=18.5 cm,height=18cm]{images/class digram.png}%
+    
+    \caption{Diagramme de classe global}%
+    
+\end{figure}
+\section{Mise en œuvre}
+Dans cette partie nous allons présenter le Product backlog, la planification du sprint et le diagramme de Gantt. 
+
+\subsection{Product backlog}
+\renewcommand{\labelitemi}{\tiny$\bullet$}
+Comme nous l'avons indiqué dans le premier chapitre, le backlog produit est un élément essentiel qui décrit les besoins et les fonctionnalités attendues, classés par ordre de priorité. Chaque élément est détaillé sous forme de user story. Le tableau suivant présente le backlog produit de notre solution, contenant les champs  suivants : \\
+\begin{itemize}[leftmargin=2cm, topsep=0pt]
+        \begin{spacing}{1.25}
+  
+        \item  \textbf{Fonctionnalités  : }Il s’agit d’un résumé bref de l’histoire utilisateur
+        \item  \textbf{\textbf{User Stories}  :} Caractérise la fonctionnalité désirée par l’utilisateur 
+        \item  \textbf{Priorité  : }Caractérise l’importance de la fonctionnalité 
+        \item  \textbf{Estimation : } Une évaluation du temps nécessaire pour réaliser chaque user stories  
+\\
+        \end{spacing}
+\end{itemize}
+\begin{spacing}{0.5}
+\end{spacing}
+
+\begin{longtable}{|p{3.5cm}|p{9cm}|p{1.5cm}|p{2cm}|}
+\caption{Backlog Produit} %
+
+\label{tableau:Backlog Produit}
+\\
+\hline
+ \cellcolor[HTML]{FFF2CC}Fonctionnalités  
+& \cellcolor[HTML]{FFF2CC}User Stories   
+& \cellcolor[HTML]{FFF2CC}Priorités
+& \cellcolor[HTML]{FFF2CC}Estimation\\
+\hline
+    \multirow{2}{10em}{ Gestion d’Authentification}& En tant que FTE je veux m’authentifier  & Élevée & 3 jours
+\\\cline{2-4}
+&  En tant que DT je veux m’authentifier  & Élevée & 3 jours
+\\\cline{2-4}
+&  En tant que CT je veux m’authentifier  & Élevée & 3 jours
+\\ \hline
+ \multirow{4}{8em}{Gérer Réunion} 
+ & En tant que FTE, je veux créer une réunion & Élevée & 5 jours
+\\\cline{2-4}
+& En tant que FTE, je veux consulter une réunion & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que FTE, je veux confirmer une réunion & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que FTE, je veux annuler une réunion & Moyenne & 3 jours
+\\\cline{2-4}
+& En tant que DT, je veux valider une réunion & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que DT, je veux rejeter une réunion & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que DT, je veux consulter une réunion & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que CT, je veux consulter une réunion & Moyenne& 1 jours
+\\ \hline
+\multirow{4}{8em}{Gérer pv}
+& En tant que FTE, je veux créer un pv & Élevée& 4 jours
+\\\cline{2-4}
+& En tant que FTE, je veux consulter un pv & Moyenne& 3 jours
+\\\cline{2-4}
+& En tant que DT, je veux consulter un pv & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que DT, je veux signer un pv & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que DT, je veux rejeter un pv & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que CT, je veux consulter un pv & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que CT, je veux signer un pv & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que CT, je veux rejeter un pv & Moyenne& 1 jours
+\\\cline{2-4}
+& En tant que FTE, je veux uploader une nouvelle version de pv & Moyenne& 1 jours
+\\\hline
+\end{longtable}
+
+
+\subsection{Planification des sprints}
+
+La réunion de planification du sprint est une des étapes les plus importantes d'un projet Scrum. L'objectif est de préparer le planning de travail et de choisir les tâches à inclure dans le sprint. Lors de cette réunion, nous avons décidé de diviser notre projet en deux sprints : 
+
+    * Sprint 1 : Workflow de réunion  
+    
+    * Sprint 2 : Workflow de pv 
+ 
+\subsection{Diagramme de Gantt  }
+Le diagramme de Gantt, fréquemment utilisé en gestion de projet, est l'un des outils les plus efficaces pour visualiser l'état d'avancement des diverses tâches d'un projet. Il fournit une vue d'ensemble du planning et de la séquence des différentes activités du projet.
+
+ \begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=18 cm,height=8cm]{images/angular.png}%
+    
+    \caption{Diagramme de Gantt}%
+    
+\end{figure}
+\subsection{L'architecteur de système }
+Pour notre application web, nous avons choisi une architecture 3-tiers, également appelée architecture à trois niveaux. Cette architecture logicielle bien établie organise les applications en trois niveaux informatiques,logiques et physiques : une couche de présentation ou interface utilisateur, une couche d'application qui traite les données, et une couche de données qui stocke et gère les informations.
+ \begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16 cm,height=5.5cm]{images/Individus et interactions (3).png}%
+    
+    \caption{Architecture 3-Tiers }%
+    
+\end{figure}
+\subsubsection{L’architecture MVC  }
+Pendant la réalisation de notre projet, nous avons utilisé l’architecture logicielle MVC, qui décompose une application en trois composants logiques principaux : le modèle, la vue et le contrôleur. Chacun de ces éléments a une fonction spécifique dans le développement de l’application. L’architecture MVC est largement utilisée comme framework de développement web pour créer des projets extensibles et évolutifs. nous présenterons en détail les trois composants de l'architecture MVC : 
+
+\begin{itemize}
+    \item \textbf{Modéle} : Ce composant correspond toutes les données relatives à la logique de travail. Ce composant communique avec la base de données pour sauvegarder ou consulter les données. 
+    \item \textbf{Vue} : Ce composant représente la couche de présentation de l'application, responsable de fournir l'interface utilisateur (UI). Il se compose essentiellement d'un ensemble de pages web ou de commandes destinées à l'utilisateur. Il n'intègre aucune logique métier et ne traite aucune action de l'utilisateur, ces actions étant gérées par le composant contrôleur. Cette séparation facilite les tests de l'application. En conclusion, c'est l'interface utilisateur qui rend le modèle plus interactif. 
+    \item \textbf{Contrôleur}: Ce composant contient la logique métier, où se trouvent la plupart des algorithmes, calculs, etc. Il sert également d'intermédiaire principal entre la vue et le modèle. Par exemple, la vue soumet un formulaire au contrôleur, qui en assure la validation via du code métier, puis demande au modèle d'effectuer les modifications nécessaires dans la base de données.
+\end{itemize}
+
+\begin{figure}[H]%
+    \center%
+    \setlength{\fboxsep}{5pt}%
+    \setlength{\fboxrule}{0.5pt}%
+    \includegraphics[width=16 cm,height=9cm]{images/Individus et interactions (5).png}%
+    
+    \caption{Architecture MVC }%
+    
+\end{figure}
+La figure 2.6 explique le principe de fonctionnement du framework MVC. Dans cette architecture, les actions de l'utilisateur sont gérées de la manière suivante : 
+\begin{enumerate}
+    \item L'utilisateur choisit une action à effectuer à travers l'interface utilisateur de la vue. 
+    \item Le contrôleur reçoit la requête HTTP correspondante, contenant les informations sur le processus demandée. 
+    \item Le contrôleur traite cette requête et communique avec le modèle pour effectuer les opérations nécessaires en fonction de la logique de travail préalablement implémentée.
+    \item Le modèle traite le demande en utilisant les données appropriées et effectue les opérations nécessaires, telles que la récupération, la modification ou la suppression de données.
+    \item Une fois que le modèle a terminé son traitement, il renvoie les résultats au contrôleur. 
+    \item Le contrôleur récupère les réponses du modèle et les transmet à la vue pour générer l'affichage approprié.
+    \item La vue utilise les données reçues du contrôleur pour générer une réponse HTML, qui est ensuite renvoyée à l'utilisateur. 
+\end{enumerate}
+\section{CONCLUSION}
+Ce chapitre a permis de spécifier de manière détaillée les besoins fonctionnels et non fonctionnels de la plateforme de gestion de réunions et de validation électronique des PV. L'identification des acteurs et des cas d'utilisation a permis de modéliser le système à travers des diagrammes UML, tandis que la planification avec la méthodologie Scrum a structuré le développement en sprints cohérents. L'architecture technique retenue, basée sur des technologies modernes et éprouvées, offre un socle solide pour la réalisation du projet.
+
+Cette étude préliminaire constitue une base essentielle pour la phase de développement qui sera détaillée dans le chapitre suivant. Elle garantit l'adéquation entre la solution proposée et les besoins exprimés par les utilisateurs de l'ANME, tout en assurant la qualité et la maintenabilité de l'application. La planification détaillée des sprints et la définition claire des livrables permettent d'anticiper les risques et d'assurer le respect des délais du projet.
+
+
+
+
